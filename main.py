@@ -141,12 +141,12 @@ def prepare_recommendation(json_data, users):
 
     ####################################################
 
-    print('\nMovies recommended for U:\n')
+    print('\nMovies recommended for ' + user +':\n')
 
     for i, j in sorted_movies_rated_by_most_common_critics[-10:]:
         print(i, j)
 
-    print('\nMovies NOT recommended for U:\n')
+    print('\nMovies NOT recommended for ' + user +':\n')
 
     for i, j in sorted_movies_rated_by_most_common_critics[:10]:
         print(i, j)
