@@ -1,3 +1,6 @@
+##############################################################################################
+#Movies recommendation - created by Jarosław Drząszcz(s16136) and Przemysław Białczak(s16121)#
+##############################################################################################
 import argparse
 import json
 import numpy as np
@@ -104,54 +107,49 @@ def find_similar_users(dataset, user, num_users):
 #usage in main: prepare_recommendation(data, similar_users)
 def prepare_recommendation(json_data, users):
     #creating list of users with the same movies taste
-    users_with_the_same_movies_taste = []
+    users_with_the_same_movie_taste = []
     for item in users:
-        users_with_the_same_movies_taste.append(item[0])
+        users_with_the_same_movie_taste.append(item[0])
 
     #creating list of movies rated by users with the same movies taste plus list of user movies
-    movies_rated_by_most_common_critics = []
+    movies_rated_by_most_similar_critics = []
     users_movies = []
     #print('\nUsers with the same movie taste + rated movies:\n')
     for key, value in json_data.items():
-        if key in users_with_the_same_movies_taste:
+        if key in users_with_the_same_movie_taste:
             #print(key, value)
-            movies_rated_by_most_common_critics.append(value)
+            movies_rated_by_most_similar_critics.append(value)
         if key == user:
             #print(key, value)
             users_movies.append(value)
-    #print("before remove:", movies_rated_by_most_common_critics)
+    #print("before remove:", movies_rated_by_most_similar_critics)
 
-    #creating a list from a list of dicts
+    #creating a lists from a list of dicts
     from collections import ChainMap
-    movies_rated_by_most_common_critics = dict(ChainMap(*movies_rated_by_most_common_critics))
+    movies_rated_by_most_similar_critics = dict(ChainMap(*movies_rated_by_most_similar_critics))
     users_movies = dict(ChainMap(*users_movies))
 
-    #removing user movies from movies_rated_by_most_common_critics
-    for i, j in movies_rated_by_most_common_critics.copy().items():
+    #removing movies rated by USER from movies_rated_by_most_similar_critics
+    for i, j in movies_rated_by_most_similar_critics.copy().items():
         for k, v in users_movies.items():
             if i == k:
-                movies_rated_by_most_common_critics.pop(i, j)
-    #print("after remove:", movies_rated_by_most_common_critics)
+                movies_rated_by_most_similar_critics.pop(i, j)
+    #print("after remove:", movies_rated_by_most_similar_critics)
 
     #sorting dict with value
-    sorted_movies_rated_by_most_common_critics = sorted(movies_rated_by_most_common_critics.items(), key=lambda kv: kv[1])
-    #print(sorted_movies_rated_by_most_common_critics)
+    sorted_movies_rated_by_most_similar_critics = sorted(movies_rated_by_most_similar_critics.items(), key=lambda kv: kv[1])
+    #print(sorted_movies_rated_by_most_similar_critics)
 
-    ####################################################
-
+    
     print('\nMovies recommended for ' + user +':\n')
 
-    for i, j in sorted_movies_rated_by_most_common_critics[-10:]:
+    for i, j in sorted_movies_rated_by_most_similar_critics[-10:]:
         print(i, j)
 
     print('\nMovies NOT recommended for ' + user +':\n')
 
-    for i, j in sorted_movies_rated_by_most_common_critics[:10]:
+    for i, j in sorted_movies_rated_by_most_similar_critics[:10]:
         print(i, j)
-    ####################################################
-    # w przypadku jak kilku uzytkownikow ocenilo ten sam film to do listy filmow wpada tylko jeden film z ocena uzytkownika ktory jest
-    # najbardziej zgodny gustem, to chyba poprane?
-    ###################################################
 
 
 if __name__=='__main__':
@@ -172,3 +170,7 @@ if __name__=='__main__':
         print(item[0], '\t\t', round(float(item[1]), 2))
 
     prepare_recommendation(data, similar_users)
+
+##############################################################################################
+#Movies recommendation - created by Jarosław Drząszcz(s16136) and Przemysław Białczak(s16121)#
+##############################################################################################
