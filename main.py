@@ -157,9 +157,8 @@ def prepare_recommendation(json_data, users):
 
 
 if __name__=='__main__':
-    # args = build_arg_parser().parse_args()
-    # user = args.user
-    user = "Pawel Czapiewski"
+    args = build_arg_parser().parse_args()
+    user = args.user
 
     ratings_file = 'NAI_2019_2020_ratings.json'
 
