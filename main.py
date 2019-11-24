@@ -108,36 +108,34 @@ def prepare_recommendation(json_data, users):
     for item in users:
         users_with_the_same_movies_taste.append(item[0])
 
-    #creating list of movies rated by users with the same movies taste and list of user movies
+    #creating list of movies rated by users with the same movies taste plus list of user movies
     movies_rated_by_most_common_critics = []
     users_movies = []
-    print('\nUsers with the same movies taste rate movies:\n')
+    #print('\nUsers with the same movie taste + rated movies:\n')
     for key, value in json_data.items():
         if key in users_with_the_same_movies_taste:
-            print(key, value)
+            #print(key, value)
             movies_rated_by_most_common_critics.append(value)
         if key == user:
-            print(key, value)
-            #movies_rated_by_most_common_critics.append(value)
+            #print(key, value)
             users_movies.append(value)
-    print("before remove:", movies_rated_by_most_common_critics)
+    #print("before remove:", movies_rated_by_most_common_critics)
 
     #creating a list from a list of dicts
     from collections import ChainMap
-
     movies_rated_by_most_common_critics = dict(ChainMap(*movies_rated_by_most_common_critics))
     users_movies = dict(ChainMap(*users_movies))
 
-    #removing users_movies from
+    #removing user movies from movies_rated_by_most_common_critics
     for i, j in movies_rated_by_most_common_critics.copy().items():
         for k, v in users_movies.items():
             if i == k:
                 movies_rated_by_most_common_critics.pop(i, j)
-    print("after remove:", movies_rated_by_most_common_critics)
+    #print("after remove:", movies_rated_by_most_common_critics)
 
     #sorting dict with value
     sorted_movies_rated_by_most_common_critics = sorted(movies_rated_by_most_common_critics.items(), key=lambda kv: kv[1])
-    print(sorted_movies_rated_by_most_common_critics)
+    #print(sorted_movies_rated_by_most_common_critics)
 
     ####################################################
 
@@ -167,7 +165,7 @@ if __name__=='__main__':
         data = json.loads(f.read())
 
     print('\nUsers similar to ' + user + ':\n')
-    similar_users = find_similar_users(data, user, 3) 
+    similar_users = find_similar_users(data, user, 5) 
     print('User\t\t\tSimilarity score')
     print('-'*41)
     for item in similar_users:
