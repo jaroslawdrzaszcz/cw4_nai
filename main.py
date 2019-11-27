@@ -106,12 +106,12 @@ def find_similar_users(dataset, user, num_users):
 
 #usage in main: prepare_recommendation(data, similar_users)
 def prepare_recommendation(json_data, users):
-    #creating list of users with the same movies taste
+    #creating list of users with the same movie taste
     users_with_the_same_movie_taste = []
     for item in users:
         users_with_the_same_movie_taste.append(item[0])
 
-    #creating list of movies rated by users with the same movies taste plus list of user movies
+    #creating a list of movies rated by users with the same movies taste plus list of user movies
     movies_rated_by_most_similar_critics = []
     users_movies = []
     #print('\nUsers with the same movie taste + rated movies:\n')
@@ -124,7 +124,7 @@ def prepare_recommendation(json_data, users):
             users_movies.append(value)
     #print("before remove:", movies_rated_by_most_similar_critics)
 
-    #creating a lists from a list of dicts
+    #converting data
     from collections import ChainMap
     movies_rated_by_most_similar_critics = dict(ChainMap(*movies_rated_by_most_similar_critics))
     users_movies = dict(ChainMap(*users_movies))
