@@ -1,6 +1,6 @@
-##############################################################################################
-#Movies recommendation - created by Jarosław Drząszcz(s16136) and Przemysław Białczak(s16121)#
-##############################################################################################
+###############################################################################################
+# Movies recommendation - created by Jarosław Drząszcz(s16136) and Przemysław Białczak(s16121)#
+###############################################################################################
 import argparse
 import json
 import numpy as np
@@ -133,7 +133,6 @@ def prepare_recommendation(json_data, users):
     # sorting dict with value
     sorted_movies_rated_by_most_similar_critics = sorted(movies_rated_by_most_similar_critics.items(), key=lambda kv: kv[1])
 
-    
     print('\nMovies recommended for ' + user +':\n')
 
     for i, j in sorted_movies_rated_by_most_similar_critics[-10:]:
@@ -145,10 +144,9 @@ def prepare_recommendation(json_data, users):
         print(i, j)
 
 
-if __name__=='__main__':
-    # args = build_arg_parser().parse_args()
-    # user = args.user
-    user = "Jaroslaw Drzaszcz"
+if __name__ == '__main__':
+    args = build_arg_parser().parse_args()
+    user = args.user
 
     ratings_file = 'NAI_2019_2020_ratings.json'
 
@@ -165,6 +163,6 @@ if __name__=='__main__':
 
     prepare_recommendation(data, similar_users)
 
-##############################################################################################
-#Movies recommendation - created by Jarosław Drząszcz(s16136) and Przemysław Białczak(s16121)#
-##############################################################################################
+###############################################################################################
+# Movies recommendation - created by Jarosław Drząszcz(s16136) and Przemysław Białczak(s16121)#
+###############################################################################################

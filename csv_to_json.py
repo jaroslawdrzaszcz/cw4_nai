@@ -1,3 +1,8 @@
+#######################################################################
+# Conversion csv to Json without Polish sings                         #
+# created by Jarosław Drząszcz(s16136) and Przemysław Białczak(s16121)#
+#######################################################################
+
 import csv
 import json
 
