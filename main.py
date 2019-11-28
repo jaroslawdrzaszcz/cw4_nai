@@ -104,41 +104,34 @@ def find_similar_users(dataset, user, num_users):
     return scores[top_users]
 
 
-#usage in main: prepare_recommendation(data, similar_users)
 def prepare_recommendation(json_data, users):
-    #creating list of users with the same movie taste
+    # creating list of users with the same movie taste
     users_with_the_same_movie_taste = []
     for item in users:
         users_with_the_same_movie_taste.append(item[0])
 
-    #creating a list of movies rated by users with the same movies taste plus list of user movies
+    # creating a list of movies rated by users with the same movies taste plus list of user movies
     movies_rated_by_most_similar_critics = []
     users_movies = []
-    #print('\nUsers with the same movie taste + rated movies:\n')
     for key, value in json_data.items():
         if key in users_with_the_same_movie_taste:
-            #print(key, value)
             movies_rated_by_most_similar_critics.append(value)
         if key == user:
-            #print(key, value)
             users_movies.append(value)
-    #print("before remove:", movies_rated_by_most_similar_critics)
 
-    #converting data
+    # converting data
     from collections import ChainMap
     movies_rated_by_most_similar_critics = dict(ChainMap(*movies_rated_by_most_similar_critics))
     users_movies = dict(ChainMap(*users_movies))
 
-    #removing movies rated by USER from movies_rated_by_most_similar_critics
+    # removing movies rated by USER from movies_rated_by_most_similar_critics
     for i, j in movies_rated_by_most_similar_critics.copy().items():
         for k, v in users_movies.items():
             if i == k:
                 movies_rated_by_most_similar_critics.pop(i, j)
-    #print("after remove:", movies_rated_by_most_similar_critics)
 
-    #sorting dict with value
+    # sorting dict with value
     sorted_movies_rated_by_most_similar_critics = sorted(movies_rated_by_most_similar_critics.items(), key=lambda kv: kv[1])
-    #print(sorted_movies_rated_by_most_similar_critics)
 
     
     print('\nMovies recommended for ' + user +':\n')
@@ -153,8 +146,9 @@ def prepare_recommendation(json_data, users):
 
 
 if __name__=='__main__':
-    args = build_arg_parser().parse_args()
-    user = args.user
+    # args = build_arg_parser().parse_args()
+    # user = args.user
+    user = "Jaroslaw Drzaszcz"
 
     ratings_file = 'NAI_2019_2020_ratings.json'
 
