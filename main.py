@@ -86,15 +86,19 @@ def build_arg_parser():
 
 
 # Finds users in the dataset that are similar to the input user
-def find_similar_users(dataset, user, num_users):
+def find_similar_users(dataset, user, num_users, score_method):
     if user not in dataset:
         raise TypeError('Cannot find ' + user + ' in the dataset')
 
     # Compute Pearson score between input user
     # and all the users in the dataset
-    scores = np.array([[x, pearson_score(dataset, user,
-            x)] for x in dataset if x != user])
+    if score_method == pearson_score:
+        scores = np.array([[x, pearson_score(dataset, user, x)] for x in dataset if x != user])
 
+    # Compute Euclidean score between input user
+    # and all the users in the dataset
+    elif score_method == euclidean_score:
+        scores = np.array([[x, euclidean_score(dataset, user, x)] for x in dataset if x != user])
     # Sort the scores in decreasing order
     scores_sorted = np.argsort(scores[:, 1])[::-1]
 
@@ -133,12 +137,12 @@ def prepare_recommendation(json_data, users):
     # sorting dict with value
     sorted_movies_rated_by_most_similar_critics = sorted(movies_rated_by_most_similar_critics.items(), key=lambda kv: kv[1])
 
-    print('\nMovies recommended for ' + user +':\n')
+    print('Movies recommended for ' + user + ':\n')
 
     for i, j in sorted_movies_rated_by_most_similar_critics[-10:]:
         print(i, j)
 
-    print('\nMovies NOT recommended for ' + user +':\n')
+    print('\nMovies NOT recommended for ' + user + ':\n')
 
     for i, j in sorted_movies_rated_by_most_similar_critics[:10]:
         print(i, j)
@@ -154,14 +158,25 @@ if __name__ == '__main__':
         print(f)
         data = json.loads(f.read())
 
-    print('\nUsers similar to ' + user + ':\n')
-    similar_users = find_similar_users(data, user, 5) 
+    print('\nUsers similar to ' + user + ' created using Pearson correlation score:\n')
+    pearson_score_similar_users = find_similar_users(data, user, 5, pearson_score)
     print('User\t\t\tSimilarity score')
     print('-'*41)
-    for item in similar_users:
+    for item in pearson_score_similar_users:
         print(item[0], '\t\t', round(float(item[1]), 2))
 
-    prepare_recommendation(data, similar_users)
+    print('\n\nPreparing movie recommendation based on Pearson correlation score:\n')
+    prepare_recommendation(data, pearson_score_similar_users)
+
+    print('\nUsers similar to ' + user + ' created using Euclidean distance score:\n')
+    euclidean_score_similar_users = find_similar_users(data, user, 5, euclidean_score)
+    print('User\t\t\tSimilarity score')
+    print('-' * 41)
+    for item in euclidean_score_similar_users:
+        print(item[0], '\t\t', round(float(item[1]), 2))
+
+    print('\n\nPreparing movie recommendation based on Euclidean distance score:\n')
+    prepare_recommendation(data, euclidean_score_similar_users)
 
 ###############################################################################################
 # Movies recommendation - created by Jarosław Drząszcz(s16136) and Przemysław Białczak(s16121)#
